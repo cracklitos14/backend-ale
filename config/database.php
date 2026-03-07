@@ -4,7 +4,7 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 
 $host = getenv("MYSQLHOST");
-$db   = getenv("MYSQLDATABASE");
+$db   = getenv("MYSQL_DATABASE");
 $user = getenv("MYSQLUSER");
 $pass = getenv("MYSQLPASSWORD");
 $port = getenv("MYSQLPORT");
