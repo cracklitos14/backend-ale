@@ -3,15 +3,11 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 
-$url = getenv("DATABASE_URL");
-
-$dbparts = parse_url($url);
-
-$host = $dbparts['host'];
-$user = $dbparts['user'];
-$pass = $dbparts['pass'];
-$db   = ltrim($dbparts['path'],'/');
-$port = $dbparts['port'];
+$host = getenv("MYSQLHOST");
+$db   = getenv("MYSQLDATABASE");
+$user = getenv("MYSQLUSER");
+$pass = getenv("MYSQLPASSWORD");
+$port = getenv("MYSQLPORT");
 
 $charset = "utf8mb4";
 
