@@ -24,6 +24,21 @@ if (!$nombre || !$id_categoria) {
   exit;
 }
 
+// 🔎 VALIDACIÓN: verificar si el código de barras ya existe
+$stmtCheck = $pdo->prepare("SELECT COUNT(*) FROM productos WHERE codigo_barras = :codigo_barras");
+$stmtCheck->execute([':codigo_barras' => $codigo_barras]);
+$exists = $stmtCheck->fetchColumn();
+
+if ($exists > 0) {
+  // 🚨 Si existe, no insertamos y mandamos alerta
+  echo json_encode(['success' => false, 'message' => 'El código de barras ya existe']);
+  exit;
+}
+
+
+
+
+
 $sql = "INSERT INTO productos (nombre, precio, id_categoria, estado, codigo_barras)
         VALUES (:nombre, :precio, :categoria, 1, :codigo_barras)";
 
