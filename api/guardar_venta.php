@@ -17,8 +17,8 @@ try {
 
     // 1️⃣ insertar venta
     $stmt = $pdo->prepare("
-        INSERT INTO ventas (fecha, total, id_usuario)
-        VALUES (NOW(), ?, ?)
+        INSERT INTO ventas (fecha, total, id_usuario, metodo_pago)
+        VALUES (NOW(), ?, ?, ?)
     ");
     $stmt->execute([$total, $id_usuario]);
     $id_venta = $pdo->lastInsertId();
