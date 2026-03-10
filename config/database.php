@@ -2,7 +2,7 @@
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
-
+date_default_timezone_set("America/Mexico_City");
 $host = getenv("MYSQLHOST");
 $db   = getenv("MYSQL_DATABASE");
 $user = getenv("MYSQLUSER");
