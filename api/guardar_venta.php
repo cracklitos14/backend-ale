@@ -20,7 +20,8 @@ try {
         INSERT INTO ventas (fecha, total, id_usuario, metodo_pago)
         VALUES (NOW(), ?, ?, ?)
     ");
-    $stmt->execute([$total, $id_usuario]);
+    $stmt->execute([$total, $id_usuario,$data['metodo_pago'] 
+]);
     $id_venta = $pdo->lastInsertId();
 
     // 2️⃣ insertar detalle y descontar stock
