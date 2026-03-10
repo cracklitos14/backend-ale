@@ -7,6 +7,7 @@ require '../config/database.php';
 header('Content-Type: application/json');
 
 $data = json_decode(file_get_contents('php://input'), true);
+date_default_timezone_set("America/Mexico_City");
 
 $items = $data['items'];
 $total = $data['total'];
