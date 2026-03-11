@@ -24,6 +24,12 @@ if (!$nombre || !$id_categoria) {
   exit;
 }
 
+// 🚨 VALIDACIÓN: si el código de barras está vacío
+if (empty($codigo_barras)) {
+  echo json_encode(['success' => false, 'message' => 'El código de barras está vacío']);
+  exit;
+}
+
 // 🔎 VALIDACIÓN: verificar si el código de barras ya existe
 $stmtCheck = $pdo->prepare("SELECT COUNT(*) FROM productos WHERE codigo_barras = :codigo_barras");
 $stmtCheck->execute([':codigo_barras' => $codigo_barras]);
@@ -35,10 +41,7 @@ if ($exists > 0) {
   exit;
 }
 
-
-
-
-
+// ➕ Insertar producto
 $sql = "INSERT INTO productos (nombre, precio, id_categoria, estado, codigo_barras)
         VALUES (:nombre, :precio, :categoria, 1, :codigo_barras)";
 
@@ -48,11 +51,11 @@ $stmt->execute([
   ':precio' => $precio,
   ':categoria' => $id_categoria,
   ':codigo_barras' => $codigo_barras
- 
 ]);
 
 $id_producto = $pdo->lastInsertId();
 
+// ➕ Insertar stock
 $sqlStock = "INSERT INTO inventario (id_producto, stock)
              VALUES (:id, :stock)";
 
@@ -62,4 +65,4 @@ $stmt2->execute([
   ':stock' => $stock
 ]);
 
-echo json_encode(['success' => true]);
+echo json_encode(['success' => true, 'message' => 'Producto creado correctamente']);
