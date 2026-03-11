@@ -15,6 +15,21 @@ if (!$fechaInicio || !$fechaFin) {
     exit;
 }
 
+// 🚨 Validación: fecha fin menor que inicio
+if ($fechaFin < $fechaInicio) {
+    http_response_code(400);
+    echo json_encode(["error" => "La fecha de fin no puede ser menor que la fecha de inicio"]);
+    exit;
+}
+
+// 🚨 Validación: fechas futuras
+$hoy = date("Y-m-d");
+if ($fechaInicio > $hoy || $fechaFin > $hoy) {
+    http_response_code(400);
+    echo json_encode(["error" => "No puedes seleccionar fechas futuras"]);
+    exit;
+}
+
 try {
     // 🔹 Ingresos totales
     $sqlIngresos = "SELECT SUM(total) AS ingresosTotales 
@@ -49,7 +64,7 @@ try {
     $stmt = $pdo->query($sqlAgotados);
     $productosAgotados = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // 🔹 Productos con stock bajo (pero no agotados)
+    // 🔹 Productos con stock bajo
     $sqlBajo = "SELECT p.nombre, i.stock, i.stock_minimo
                 FROM inventario i
                 INNER JOIN productos p ON p.id_producto = i.id_producto
@@ -57,7 +72,6 @@ try {
     $stmt = $pdo->query($sqlBajo);
     $productosStockBajo = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // 🔹 Mensaje si todo está bien
     $mensajeAlertas = (count($productosAgotados) === 0 && count($productosStockBajo) === 0)
         ? "Todos los productos tienen stock suficiente"
         : null;
