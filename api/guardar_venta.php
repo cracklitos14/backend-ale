@@ -18,13 +18,14 @@ try {
     $pdo->beginTransaction();
 
     // 1️⃣ insertar venta
-    $stmt = $pdo->prepare("
-        INSERT INTO ventas (fecha, total, id_usuario, metodo_pago)
-        VALUES (NOW(), ?, ?, ?)
-    ");
-    $stmt->execute([$total, $id_usuario,$data['metodo_pago'] 
-]);
-    $id_venta = $pdo->lastInsertId();
+   $fecha = date("Y-m-d H:i:s");
+
+$stmt = $pdo->prepare("
+    INSERT INTO ventas (fecha, total, id_usuario, metodo_pago)
+    VALUES (?, ?, ?, ?)
+");
+
+$stmt->execute([$fecha, $total, $id_usuario, $data['metodo_pago']]);
 
     // 2️⃣ insertar detalle y descontar stock
     foreach ($items as $item) {
